@@ -34,6 +34,7 @@ Usage:
 import os
 import math
 import time
+import shutil
 import tensorflow as tf
 from tensorflow.contrib.session_bundle import exporter
 from tensorflow.python.saved_model import builder as saved_model_builder
@@ -197,6 +198,8 @@ def main(_):
                     export_path = os.path.join(
                         compat.as_bytes(FLAGS.model_dir),
                         compat.as_bytes(FLAGS.model_version))
+                    if (os.path.exists(export_path) == True): 
+                        shutil.rmtree(export_path)
                     builder = saved_model_builder.SavedModelBuilder(export_path)
                     legacy_init_op = tf.group(tf.tables_initializer(), name='legacy_init_op')
                 
@@ -223,4 +226,5 @@ def main(_):
 
 if __name__ == "__main__":
     tf.app.run()
+
 
